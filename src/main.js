@@ -1,5 +1,7 @@
 const app = require('./app');
 
-app.listen(8888, () => {
-  console.log('项目启动成功');
+const config = require('./app/config');
+
+app.listen(config.APP_PORT, () => {
+  console.log(`项目在${config.APP_PORT}启动成功`);
 });

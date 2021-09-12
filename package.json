@@ -12,7 +12,10 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "koa": "^2.13.1"
+        "dotenv": "^10.0.0",
+        "koa": "^2.13.1",
+        "koa-bodyparser": "^4.3.0",
+        "koa-router": "^10.1.1"
     },
     "devDependencies": {
         "@commitlint/cli": "^13.1.0",
