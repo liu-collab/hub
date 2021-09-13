@@ -1,6 +1,9 @@
+const jwt = require('jsonwebtoken');
+
 const errType = require('../contants/errType');
 const service = require('../service/user.service');
 const md5password = require('../utils/password-handle');
+const { PUBLIC_KEY } = require('../app/config');
 const verifylogin = async (ctx, next) => {
   //1.获取用户名和密码
   const { name, password } = ctx.request.body;
@@ -22,7 +25,24 @@ const verifylogin = async (ctx, next) => {
     const error = new Error(errType.PASSWORD_IS_ERROR);
     return ctx.app.emit('error', error, ctx);
   }
+  ctx.user = user;
   await next();
 };
 
-module.exports = { verifylogin };
+const verifyAuth = async (ctx, next) => {
+  //获取token
+  const authorization = ctx.headers.authorization;
+  const token = authorization.replace('Bearer ', '');
+  try {
+    const result = jwt.verify(token, PUBLIC_KEY, {
+      algorithms: ['RS256'],
+    });
+    ctx.user = result;
+    await next();
+  } catch (err) {
+    const error = new Error(errType.UNAUTHORIZAATION);
+    ctx.app.emit('error', error, ctx);
+  }
+};
+
+module.exports = { verifylogin, verifyAuth };
