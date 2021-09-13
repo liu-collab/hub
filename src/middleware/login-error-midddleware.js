@@ -32,11 +32,19 @@ const verifylogin = async (ctx, next) => {
 const verifyAuth = async (ctx, next) => {
   //获取token
   const authorization = ctx.headers.authorization;
+  //验证token是否为空
+  if (!authorization) {
+    const error = new Error(errType.UNAUTHORIZAATION);
+    ctx.app.emit('error', error, ctx);
+    return;
+  }
   const token = authorization.replace('Bearer ', '');
+  //公钥解析token
   try {
     const result = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256'],
     });
+
     ctx.user = result;
     await next();
   } catch (err) {
