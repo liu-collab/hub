@@ -6,7 +6,7 @@ const verifyuser = async (ctx, next) => {
   const { name, password } = ctx.request.body;
   // console.log(name, password);
   //2.判断用户名的密码是否为空
-  if (!name || !password || name === '' || password === '') {
+  if (!name || !password) {
     const error = new Error(errType.NAME_OR_PASSWORD_IS_REQUIRED);
     return ctx.app.emit('error', error, ctx);
   }

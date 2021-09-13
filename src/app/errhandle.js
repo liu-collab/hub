@@ -11,6 +11,14 @@ const errhandle = (error, ctx) => {
       status = 409; //冲突 conflict
       message = '用户名已经存在';
       break;
+    case errType.NAME_DOES_NOT_EXISTS:
+      status = 400; //参数错误
+      message = '用户名不存在';
+      break;
+    case errType.PASSWORD_IS_ERROR:
+      status = 400; //参数错误
+      message = '密码错误';
+      break;
     default:
       status = 404;
       message = 'NOT FOUND';
