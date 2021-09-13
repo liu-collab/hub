@@ -20,4 +20,6 @@ const verifyuser = async (ctx, next) => {
   await next();
 };
 
-module.exports = verifyuser;
+module.exports = {
+  verifyuser,
+};
