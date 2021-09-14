@@ -23,6 +23,10 @@ const errhandle = (error, ctx) => {
       status = 401; //参数错误
       message = '无效token~';
       break;
+    case errType.UNPERMISSION:
+      status = 401; //参数错误
+      message = '未授权权限~';
+      break;
     default:
       status = 404;
       message = 'NOT FOUND';

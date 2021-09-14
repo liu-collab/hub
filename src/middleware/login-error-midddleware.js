@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const errType = require('../contants/errType');
 const service = require('../service/user.service');
+const authPermissionService = require('../service/auth.service');
 const md5password = require('../utils/password-handle');
 const { PUBLIC_KEY } = require('../app/config');
 const verifylogin = async (ctx, next) => {
@@ -54,5 +55,25 @@ const verifyAuth = async (ctx, next) => {
     ctx.app.emit('error', error, ctx);
   }
 };
+const verifyPremission = async (ctx, next) => {
+  //验证权限
+  //1.获取数据
 
-module.exports = { verifylogin, verifyAuth };
+  const momentId = ctx.params.momentId;
+  const userId = ctx.user.id;
+
+  try {
+    //在数据查找有问题的情况下返回错误
+    const isPremission = await authPermissionService.checkMoment(
+      momentId,
+      userId
+    );
+    if (!isPremission) throw new Error(errType.UNPERMISSION);
+    await next();
+  } catch (err) {
+    const error = new Error(errType.UNPERMISSION);
+    ctx.app.emit('error', error, ctx);
+  }
+};
+
+module.exports = { verifylogin, verifyAuth, verifyPremission };

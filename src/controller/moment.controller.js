@@ -1,5 +1,4 @@
 const service = require('../service/moment.service');
-
 class MomentController {
   async create(ctx, next) {
     //获取评论相关数据
@@ -23,6 +22,16 @@ class MomentController {
     const { offset, size } = ctx.query;
     const result = await service.getMomentList(offset, size);
     ctx.body = result;
+  }
+  async change(ctx, next) {
+    try {
+      const momentId = ctx.params.momentId;
+      const content = ctx.request.body.content;
+      const result = await service.update(momentId, content);
+      ctx.body = result;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
