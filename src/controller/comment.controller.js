@@ -31,6 +31,17 @@ class MommentController {
       console.log(error);
     }
   }
+  //修改
+  async update(ctx, next) {
+    try {
+      const commentId = ctx.params.commentId;
+      const conent = ctx.request.body.conent;
+      const result = await commentService.update(commentId, conent);
+      ctx.body = result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = new MommentController();

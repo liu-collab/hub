@@ -59,13 +59,17 @@ const verifyPremission = async (ctx, next) => {
   //验证权限
   //1.获取数据
 
-  const momentId = ctx.params.momentId;
+  const [resourceKey] = Object.keys(ctx.params);
+  const tableName = resourceKey.replace('Id', '');
+  const resourceId = ctx.params[resourceKey];
+
   const userId = ctx.user.id;
 
   try {
     //在数据查找有问题的情况下返回错误
-    const isPremission = await authPermissionService.checkMoment(
-      momentId,
+    const isPremission = await authPermissionService.checkResource(
+      tableName,
+      resourceId,
       userId
     );
     if (!isPremission) throw new Error(errType.UNPERMISSION);
