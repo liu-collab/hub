@@ -1,6 +1,6 @@
 const errType = require('../contants/errType');
 const service = require('../service/user.service');
-//处理错误的中间件
+//验证用户的中间件
 const verifyuser = async (ctx, next) => {
   //1.获取用户名和密码
   const { name, password } = ctx.request.body;
