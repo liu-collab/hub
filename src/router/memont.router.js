@@ -7,6 +7,7 @@ const {
   detail,
   list,
   change,
+  remove,
 } = require('../controller/moment.controller.js');
 const {
   verifyAuth,
@@ -20,5 +21,7 @@ momentRouter.get('/:momentId', detail);
 momentRouter.get('/', list);
 //修改动态接口
 momentRouter.patch('/:momentId', verifyAuth, verifyPremission, change);
+//删除动态接口
+momentRouter.delete('/:momentId', verifyAuth, verifyPremission, remove);
 
 module.exports = momentRouter;

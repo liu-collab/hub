@@ -18,6 +18,7 @@ class MomentService {
       console.log(error);
     }
   }
+  //获取单个动态
   async getMomentById(momentId) {
     try {
       //左连接查询用户评论相关数据
@@ -30,6 +31,7 @@ class MomentService {
       console.log(error);
     }
   }
+  //获取动态列表
   async getMomentList(offset, size) {
     try {
       const statement = `
@@ -41,10 +43,21 @@ class MomentService {
       console.log(error);
     }
   }
+  //修改动态
   async update(momentId, content) {
     try {
       const statement = `UPDATE coment SET content = ? WHERE id = ?`;
       const [result] = await connection.execute(statement, [content, momentId]);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  //删除动态
+  async remove(momentId) {
+    try {
+      const statement = `DELETE  FROM coment WHERE id = ?`;
+      const [result] = await connection.execute(statement, [momentId]);
       return result;
     } catch (error) {
       console.log(error);

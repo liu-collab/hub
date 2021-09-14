@@ -35,11 +35,24 @@ class MomentController {
       console.log(error);
     }
   }
+  //修改
   async change(ctx, next) {
     try {
       const momentId = ctx.params.momentId;
       const content = ctx.request.body.content;
       const result = await service.update(momentId, content);
+      ctx.body = result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  //删除
+  async remove(ctx, next) {
+    try {
+      //获取参数
+      const momentId = ctx.params.momentId;
+      //数据库删除
+      const result = await service.remove(momentId);
       ctx.body = result;
     } catch (error) {
       console.log(error);
