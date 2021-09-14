@@ -42,6 +42,15 @@ class MommentController {
       console.log(error);
     }
   }
+  async remove(ctx, next) {
+    try {
+      const commentId = ctx.params.commentId;
+      const result = await commentService.remove(commentId);
+      ctx.body = result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = new MommentController();

@@ -39,5 +39,15 @@ class CommentService {
       console.log(error);
     }
   }
+  //删除动态
+  async remove(commentId) {
+    try {
+      const statement = `DELETE  FROM comment WHERE id = ?`;
+      const [result] = await connection.execute(statement, [commentId]);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 module.exports = new CommentService();
