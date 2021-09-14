@@ -9,6 +9,7 @@ const fs = require('fs');
 //     app.use(router.allowedMethods());
 //   });
 // };
+//只有app使用,直接用this绑定this即可
 const useRoutes = function () {
   fs.readdirSync(__dirname).forEach((file) => {
     if (file === 'index.js') return;
