@@ -1,14 +1,20 @@
 const service = require('../service/moment.service');
+const successType = require('../contants/successType');
+
 class MomentController {
   async create(ctx, next) {
     try {
-      //获取评论相关数据
+      //获取动态相关数据
       const userId = ctx.user.id;
       const content = ctx.request.body.content;
       // console.log(userId, content);
       //将数据插入到数据库中
       const result = await service.create(userId, content);
-      ctx.body = result;
+      const { affectedRows } = result;
+      if (affectedRows) {
+        const success = new Error(successType.MOMENT_SUCCESS);
+        ctx.app.emit('success', success, ctx);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +47,11 @@ class MomentController {
       const momentId = ctx.params.momentId;
       const content = ctx.request.body.content;
       const result = await service.update(momentId, content);
-      ctx.body = result;
+      const { affectedRows } = result;
+      if (affectedRows) {
+        const success = new Error(successType.PATCH_SUCCESS);
+        ctx.app.emit('success', success, ctx);
+      }
     } catch (err) {
       console.log(err);
       const error = new Error(errType.ERROR_REQUEST);
@@ -55,7 +65,11 @@ class MomentController {
       const momentId = ctx.params.momentId;
       //数据库删除
       const result = await service.remove(momentId);
-      ctx.body = result;
+      const { affectedRows } = result;
+      if (affectedRows) {
+        const success = new Error(successType.DELETE_SUCCESS);
+        ctx.app.emit('success', success, ctx);
+      }
     } catch (err) {
       console.log(err);
       const error = new Error(errType.ERROR_REQUEST);

@@ -1,7 +1,7 @@
 //调用用户处理的方法
 
 const service = require('../service/user.service');
-
+const successType = require('../contants/successType');
 class UserController {
   async create(ctx, next) {
     try {
@@ -12,7 +12,11 @@ class UserController {
       const result = await service.create(user);
       //console.log(result);
       //返回数据
-      ctx.body = result;
+      const { affectedRows } = result;
+      if (affectedRows) {
+        const success = new Error(successType.CREATE_SUCCESS);
+        ctx.app.emit('success', success, ctx);
+      }
     } catch (err) {
       console.log(err);
       const error = new Error(errType.ERROR_REQUEST);

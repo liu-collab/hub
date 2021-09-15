@@ -1,6 +1,6 @@
 //用户处理方法的业务逻辑
 const connection = require('../app/database');
-const errTypr = require('../contants/errType');
+const errType = require('../contants/errType');
 class UserService {
   // 创建用户
   async create(user) {

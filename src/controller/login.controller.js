@@ -22,9 +22,6 @@ class loginRouter {
       ctx.app.emit('error', error, ctx);
     }
   }
-  async success(ctx, next) {
-    ctx.body = '验证成功';
-  }
 }
 
 module.exports = new loginRouter();

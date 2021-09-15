@@ -1,5 +1,4 @@
 const connection = require('../app/database');
-const error = require('../contants/errType');
 const sqlFragment = `
 SELECT 
 m.id id ,m.content content,m.createAt createTime,m.updateAt updateTime,
