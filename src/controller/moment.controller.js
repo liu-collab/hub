@@ -42,8 +42,10 @@ class MomentController {
       const content = ctx.request.body.content;
       const result = await service.update(momentId, content);
       ctx.body = result;
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.ERROR_REQUEST);
+      ctx.app.emit('error', error, ctx);
     }
   }
   //删除
@@ -54,8 +56,10 @@ class MomentController {
       //数据库删除
       const result = await service.remove(momentId);
       ctx.body = result;
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.ERROR_REQUEST);
+      ctx.app.emit('error', error, ctx);
     }
   }
 }

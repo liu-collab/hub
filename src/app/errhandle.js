@@ -27,6 +27,14 @@ const errhandle = (error, ctx) => {
       status = 401; //参数错误
       message = '未授权权限~';
       break;
+    case errType.ERROR_REQUEST:
+      status = 401; //参数错误
+      message = '参数错误~';
+      break;
+    case errType.SQL_ERROR:
+      status = 503; //服务器没有准备好处理请求
+      message = '服务器未能响应';
+      break;
     default:
       status = 404;
       message = 'NOT FOUND';

@@ -1,4 +1,5 @@
 const commentService = require('../service/comment.service');
+const errType = require('../contants/errType');
 
 class MommentController {
   async create(ctx, next) {
@@ -9,8 +10,10 @@ class MommentController {
       //插入到数据
       const result = await commentService.create(momentId, conent, userId);
       ctx.body = result;
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.ERROR_REQUEST);
+      ctx.app.emit('error', error, ctx);
     }
   }
   //回复评论
@@ -27,8 +30,10 @@ class MommentController {
         commentId
       );
       ctx.body = result;
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.ERROR_REQUEST);
+      ctx.app.emit('error', error, ctx);
     }
   }
   //修改
@@ -38,8 +43,10 @@ class MommentController {
       const conent = ctx.request.body.conent;
       const result = await commentService.update(commentId, conent);
       ctx.body = result;
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.ERROR_REQUEST);
+      ctx.app.emit('error', error, ctx);
     }
   }
   async remove(ctx, next) {
@@ -47,8 +54,10 @@ class MommentController {
       const commentId = ctx.params.commentId;
       const result = await commentService.remove(commentId);
       ctx.body = result;
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.ERROR_REQUEST);
+      ctx.app.emit('error', error, ctx);
     }
   }
 }

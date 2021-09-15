@@ -1,5 +1,6 @@
 //用户处理方法的业务逻辑
 const connection = require('../app/database');
+const errTypr = require('../contants/errType');
 class UserService {
   // 创建用户
   async create(user) {
@@ -15,8 +16,10 @@ class UserService {
       //返回数据
 
       return result[0];
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.SQL_ERROR);
+      ctx.app.emit('error', error, ctx);
     }
   }
   // 查询用户是否存在
@@ -25,8 +28,10 @@ class UserService {
       const statement = `SELECT * FROM users WHERE name = ?;`;
       const result = await connection.execute(statement, [name]);
       return result[0];
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.SQL_ERROR);
+      ctx.app.emit('error', error, ctx);
     }
   }
 }

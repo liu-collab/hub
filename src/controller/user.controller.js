@@ -13,8 +13,10 @@ class UserController {
       //console.log(result);
       //返回数据
       ctx.body = result;
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.ERROR_REQUEST);
+      ctx.app.emit('error', error, ctx);
     }
   }
 }
