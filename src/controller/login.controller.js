@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const { PRIVATE_KEY } = require('../app/config');
 class loginRouter {
   async login(ctx, next) {
+    const message = '登录成功';
+    const status = 200;
     try {
       const { id, name } = ctx.user;
       //生成token
@@ -9,11 +11,16 @@ class loginRouter {
         expiresIn: 60 * 60 * 24,
         algorithm: 'RS256',
       });
-      //返回信息
-      ctx.body = {
+      const data = {
         id,
         name,
         token,
+      };
+      //返回信息
+      ctx.body = {
+        status,
+        message,
+        data,
       };
       await next();
     } catch (err) {
