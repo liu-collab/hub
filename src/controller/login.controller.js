@@ -11,16 +11,14 @@ class loginRouter {
         expiresIn: 60 * 60 * 24,
         algorithm: 'RS256',
       });
-      const data = {
-        id,
-        name,
-        token,
-      };
+
       //返回信息
       ctx.body = {
         status,
         message,
-        data,
+        id,
+        name,
+        token,
       };
       await next();
     } catch (err) {

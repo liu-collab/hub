@@ -59,7 +59,12 @@ class CommentService {
   }
   async list(momentId) {
     try {
-      const statement = `		SELECT id ,conent ,moment_id momentId,user_id userId , coment_id comentId FROM comment WHERE moment_id = ? ; `;
+      const statement = `		SELECT 
+      m.id ,m.conent ,m.moment_id momentId , m.coment_id comentId ,
+      JSON_OBJECT('id' ,u.id ,'name' ,u.name) user
+      FROM comment m
+      LEFT JOIN users u ON u.id = m.user_id
+       WHERE moment_id = ?; `;
       const [result] = await connection.execute(statement, [momentId]);
       return result;
     } catch (err) {
