@@ -11,6 +11,7 @@ const {
   reply,
   update,
   remove,
+  list,
 } = require('../controller/comment.controller.js');
 //发表评论
 commentRouter.post('/', verifyAuth, create);
@@ -20,5 +21,7 @@ commentRouter.post('/:commentId/reply', verifyAuth, reply);
 commentRouter.patch('/:commentId', verifyAuth, verifyPremission, update);
 //删除评论
 commentRouter.delete('/:commentId', verifyAuth, verifyPremission, remove);
+//获取评论
+commentRouter.get('/', list);
 
 module.exports = commentRouter;

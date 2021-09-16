@@ -63,6 +63,7 @@ class MommentController {
       ctx.app.emit('error', error, ctx);
     }
   }
+  //删除评论
   async remove(ctx, next) {
     try {
       const commentId = ctx.params.commentId;
@@ -72,6 +73,18 @@ class MommentController {
         const success = new Error(successType.DELETE_SUCCESS);
         ctx.app.emit('success', success, ctx);
       }
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.ERROR_REQUEST);
+      ctx.app.emit('error', error, ctx);
+    }
+  }
+  //获取评论
+  async list(ctx, next) {
+    try {
+      const { momentId } = ctx.query;
+      const result = await commentService.list(momentId);
+      ctx.body = result;
     } catch (err) {
       console.log(err);
       const error = new Error(errType.ERROR_REQUEST);

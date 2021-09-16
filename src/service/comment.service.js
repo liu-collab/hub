@@ -57,5 +57,16 @@ class CommentService {
       ctx.app.emit('error', error, ctx);
     }
   }
+  async list(momentId) {
+    try {
+      const statement = `		SELECT id ,conent ,moment_id momentId,user_id userId , coment_id comentId FROM comment WHERE moment_id = ? ; `;
+      const [result] = await connection.execute(statement, [momentId]);
+      return result;
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.SQL_ERROR);
+      ctx.app.emit('error', error, ctx);
+    }
+  }
 }
 module.exports = new CommentService();
