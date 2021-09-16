@@ -63,10 +63,10 @@ class MomentService {
     }
   }
   //修改动态
-  async update(momentId, content) {
+  async update(comentId, content) {
     try {
       const statement = `UPDATE coment SET content = ? WHERE id = ?`;
-      const [result] = await connection.execute(statement, [content, momentId]);
+      const [result] = await connection.execute(statement, [content, comentId]);
       return result;
     } catch (err) {
       console.log(err);
@@ -75,10 +75,33 @@ class MomentService {
     }
   }
   //删除动态
-  async remove(momentId) {
+  async remove(comentId) {
     try {
       const statement = `DELETE  FROM coment WHERE id = ?`;
-      const [result] = await connection.execute(statement, [momentId]);
+      const [result] = await connection.execute(statement, [comentId]);
+      return result;
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.SQL_ERROR);
+      ctx.app.emit('error', error, ctx);
+    }
+  }
+  //查找标签是否在动态中
+  async hasLabel(comentId, labelId) {
+    try {
+      const statemt = `	SELECT * FROM moment_label WHERE  moment_id = ? AND label_id = ? ;`;
+      const [result] = await connection.execute(statemt, [comentId, labelId]);
+      return result[0];
+    } catch (err) {
+      console.log(err);
+      const error = new Error(errType.SQL_ERROR);
+      ctx.app.emit('error', error, ctx);
+    }
+  }
+  async addLabel(comentId, labelId) {
+    try {
+      const statement = `INSERT INTO moment_label (moment_id,label_id) VALUES (?,?) ;`;
+      const [result] = await connection.execute(statement, [comentId, labelId]);
       return result;
     } catch (err) {
       console.log(err);

@@ -44,9 +44,9 @@ class MomentController {
   //修改
   async change(ctx, next) {
     try {
-      const momentId = ctx.params.momentId;
+      const comentId = ctx.params.comentId;
       const content = ctx.request.body.content;
-      const result = await service.update(momentId, content);
+      const result = await service.update(comentId, content);
       const { affectedRows } = result;
       if (affectedRows) {
         const success = new Error(successType.PATCH_SUCCESS);
@@ -62,9 +62,10 @@ class MomentController {
   async remove(ctx, next) {
     try {
       //获取参数
-      const momentId = ctx.params.momentId;
+      const comentId = ctx.params.comentId;
       //数据库删除
-      const result = await service.remove(momentId);
+      const result = await service.remove(comentId);
+
       const { affectedRows } = result;
       if (affectedRows) {
         const success = new Error(successType.DELETE_SUCCESS);
@@ -74,6 +75,26 @@ class MomentController {
       console.log(err);
       const error = new Error(errType.ERROR_REQUEST);
       ctx.app.emit('error', error, ctx);
+    }
+  }
+  //给动态添加标签
+  async addMomentLabel(ctx, next) {
+    try {
+      //1.拿到数据
+      const { labels } = ctx;
+
+      const { comentId } = ctx.params;
+
+      //2.判断标签是否添加到动态中
+      for (let label of labels) {
+        const isExistMoment = await service.hasLabel(comentId, label.id);
+        if (!isExistMoment) {
+          await service.addLabel(comentId, label.id);
+        }
+      }
+      ctx.body = '动态添加标签成功';
+    } catch (error) {
+      console.log(error);
     }
   }
 }
