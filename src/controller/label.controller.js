@@ -15,5 +15,10 @@ class LabelController {
       console.log(err);
     }
   }
+  async list(ctx, next) {
+    const { offset, limit } = ctx.query;
+    const result = await labelService.list(offset, limit);
+    ctx.body = result;
+  }
 }
 module.exports = new LabelController();
