@@ -9,6 +9,7 @@ const {
   change,
   remove,
   addMomentLabel,
+  fileInfo,
 } = require('../controller/moment.controller.js');
 const {
   verifyAuth,
@@ -34,5 +35,5 @@ momentRouter.post(
   verifyLabelExist,
   addMomentLabel
 );
-
+momentRouter.get('/images/:filename', fileInfo);
 module.exports = momentRouter;

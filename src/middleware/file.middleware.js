@@ -20,6 +20,10 @@ const uploadFile = Multer({
 
 //上传文件最大为9
 const FileHandle = uploadFile.array('file', 9);
+
+const fileResize = async (ctx, next) => {
+  await next();
+};
 module.exports = {
   FileHandle,
 };

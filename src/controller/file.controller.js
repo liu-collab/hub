@@ -22,12 +22,8 @@ class AvatarController {
 
     const { comentId } = ctx.query;
     for (let file of files) {
-      const { originalname, mimetype, size } = file;
-      const filename = `${
-        Date.now() +
-        Math.floor(Math.random() * 10000) +
-        path.extname(originalname)
-      }`;
+      const { filename, mimetype, size } = file;
+
       const result = await FileService.getFile(
         filename,
         mimetype,

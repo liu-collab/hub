@@ -1,5 +1,7 @@
+const fs = require('fs');
 const service = require('../service/moment.service');
 const successType = require('../contants/successType');
+const { FILEPATH } = require('../contants/filePath');
 
 class MomentController {
   async create(ctx, next) {
@@ -93,6 +95,17 @@ class MomentController {
         }
       }
       ctx.body = '动态添加标签成功';
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async fileInfo(ctx, next) {
+    try {
+      const { filename } = ctx.params;
+      const fileInfo = await service.getFile(filename);
+
+      ctx.response.set('content-type', fileInfo.mimetype);
+      ctx.body = fs.createReadStream(`${FILEPATH}/${fileInfo.filename}`);
     } catch (error) {
       console.log(error);
     }

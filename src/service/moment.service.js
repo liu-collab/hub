@@ -29,7 +29,8 @@ class MomentService {
         'id' ,c.id , 'conent' ,c.conent , 'commentId' ,c.coment_id ,'createTime' ,c.createAt ,'updateTime',c.updateAt,'user',JSON_OBJECT('id' ,cu.id , 'name',cu.name ,'avatarurl' ,cu.avatar_url))
             ) ,NULL) FROM comment c LEFT JOIN users cu ON c.user_id = cu.id WHERE m.id = c.moment_id
         ) comments,
-          IF(COUNT(l.id),JSON_ARRAYAGG(JSON_OBJECT('id',l.id ,'name',l.name)) ,NULL) label
+          IF(COUNT(l.id),JSON_ARRAYAGG(JSON_OBJECT('id',l.id ,'name',l.name)) ,NULL) label,
+          (SELECT JSON_ARRAYAGG(CONCAT('http://localhost:8888/moment/images/',file.filename)) FROM file WHERE m.id = file.coment_id) images
         FROM coment m
         LEFT JOIN users u ON m.user_id = u.id 
 
@@ -111,6 +112,17 @@ class MomentService {
       console.log(err);
       const error = new Error(errType.SQL_ERROR);
       ctx.app.emit('error', error, ctx);
+    }
+  }
+  async getFile(filename) {
+    try {
+      const statement = `	SELECT * FROM file WHERE  filename = ?;`;
+
+      const [result] = await connection.execute(statement, [filename]);
+
+      return result[0];
+    } catch (error) {
+      console.log(error);
     }
   }
 }

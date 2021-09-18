@@ -18,7 +18,6 @@ const FilesStorage = Multer.diskStorage({
   },
   //文件名根据时间来生成
   filename: (req, file, cb) => {
-    console.log(999);
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
