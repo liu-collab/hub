@@ -34,6 +34,16 @@ class UserService {
       ctx.app.emit('error', error, ctx);
     }
   }
+  //保存图片的url到用户表中
+  async updateAvatarURLById(avatURL, userId) {
+    try {
+      const statement = `UPDATE users SET avatar_url = ? WHERE id = ?;`;
+      const [result] = await connection.execute(statement, [avatURL, userId]);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = new UserService();

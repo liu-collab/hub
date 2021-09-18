@@ -17,6 +17,7 @@ module.exports = {
   MYSQL_USER,
   MYSQL_PASSWORD,
   MYSQL_DATABASE,
+  APP_HOST,
 } = process.env;
 //导出要在下面
 module.exports.PRIVATE_KEY = PRIVATE_KEY;

@@ -33,6 +33,7 @@ class UserController {
       const userId = ctx.params.userId;
 
       const result = await FileService.getAvatarById(userId);
+
       //设置响应的内容我image格式
       ctx.response.set('content-type', result.mimetype);
       //返回的结果在保存的图片文件夹下
