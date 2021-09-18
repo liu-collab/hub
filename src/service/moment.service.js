@@ -21,24 +21,22 @@ class MomentService {
     try {
       //左连接查询用户评论相关数据
       //获取动态时,将动态的评论也一起查询,返回相应的数据
-      const statement = `
-    		
+      const statement = `		
       SELECT 
-          m.id id ,m.content content,m.createAt createTime,m.updateAt updateTime,
-          JSON_OBJECT('uid' ,u.id ,'name' ,u.name) author,
-          IF(COUNT(c.id
-          ),JSON_ARRAYAGG(
-          JSON_OBJECT('id' ,c.id , 'conent' ,c.conent , 'commentId' ,c.coment_id ,'createTime' ,c.createAt ,'updateTime',c.updateAt,
-              'user',JSON_OBJECT('id' ,cu.id , 'name',cu.name))
-              ) ,NULL) comments,
-            IF(COUNT(l.id),JSON_ARRAYAGG(JSON_OBJECT('id',l.id ,'name',l.name)) ,NULL) label
-          FROM coment m
-          LEFT JOIN users u ON m.user_id = u.id 
-          LEFT JOIN comment c ON m.id = c.moment_id
-          LEFT JOIN users cu ON c.user_id = cu.id
-          LEFT JOIN moment_label ml ON ml.moment_id = m.id
-          LEFT JOIN label l ON l.id = ml.label_id 
-      WHERE m.id =?`;
+        m.id id ,m.content content,m.createAt createTime,m.updateAt updateTime,
+        JSON_OBJECT('uid' ,u.id ,'name' ,u.name) author,
+        (SELECT IF(COUNT(c.id),JSON_ARRAYAGG(JSON_OBJECT(
+        'id' ,c.id , 'conent' ,c.conent , 'commentId' ,c.coment_id ,'createTime' ,c.createAt ,'updateTime',c.updateAt,'user',JSON_OBJECT('id' ,cu.id , 'name',cu.name))
+            ) ,NULL) FROM comment c LEFT JOIN users cu ON c.user_id = cu.id WHERE m.id = c.moment_id
+        ) comments,
+          IF(COUNT(l.id),JSON_ARRAYAGG(JSON_OBJECT('id',l.id ,'name',l.name)) ,NULL) label
+        FROM coment m
+        LEFT JOIN users u ON m.user_id = u.id 
+        
+        LEFT JOIN moment_label ml ON ml.moment_id = m.id
+        LEFT JOIN label l ON l.id = ml.label_id 
+        WHERE m.id = ?
+      ORDER BY m.id`;
       const [result] = await connection.execute(statement, [momentId]);
       return result[0];
     } catch (err) {
