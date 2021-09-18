@@ -1,9 +1,10 @@
 const Multer = require('koa-multer');
 const path = require('path');
+const { AVATARPATH } = require('../contants/filePath');
 
 const storage = Multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './upload/avatar');
+    cb(null, AVATARPATH);
   },
   //文件名根据时间来生成
   filename: (req, file, cb) => {

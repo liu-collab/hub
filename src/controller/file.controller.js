@@ -1,11 +1,11 @@
-const AvatarService = require('../service/avatar.service.js');
+const FileService = require('../service/file.service.js');
 
 class AvatarController {
-  //保存上传的图片信息
+  //保存上传的头像信息
   async saveAvatarInfo(ctx, next) {
     const userId = ctx.user.id;
     const { filename, mimetype, size } = ctx.req.file;
-    const result = await AvatarService.save(filename, mimetype, size, userId);
+    const result = await FileService.save(filename, mimetype, size, userId);
     ctx.body = result;
   }
 }
