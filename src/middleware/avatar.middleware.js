@@ -1,25 +1,22 @@
 const Multer = require('koa-multer');
 
 const path = require('path');
-
-const { FILEPATH } = require('../contants/filePath');
+const { AVATARPATH } = require('../contants/filePath');
 
 const storage = Multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, FILEPATH);
+    cb(null, AVATARPATH);
   },
   //文件名根据时间来生成
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-console.log(storage.filename);
-const uploadFile = Multer({
+const uploadAvatar = Multer({
   storage,
 });
-
-//上传文件最大为9
-const FileHandle = uploadFile.array('file', 9);
+//处理上传的图片
+const AvatarHndle = uploadAvatar.single('avatar');
 module.exports = {
-  FileHandle,
+  AvatarHndle,
 };

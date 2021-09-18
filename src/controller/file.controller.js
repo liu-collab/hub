@@ -1,5 +1,6 @@
 const FileService = require('../service/file.service.js');
 const userService = require('../service/user.service');
+const path = require('path');
 const { APP_PORT, APP_HOST } = require('../app/config');
 class AvatarController {
   //保存上传的头像信息
@@ -13,6 +14,29 @@ class AvatarController {
     const avatURL = `${APP_HOST}:${APP_PORT}/users/${userId}/avatar`;
     await userService.updateAvatarURLById(avatURL, userId);
     ctx.body = '上传图片成功';
+  }
+  //上传文件
+  async saveFileInfo(ctx, next) {
+    const userId = ctx.user.id;
+    const files = ctx.req.files;
+
+    const { comentId } = ctx.query;
+    for (let file of files) {
+      const { originalname, mimetype, size } = file;
+      const filename = `${
+        Date.now() +
+        Math.floor(Math.random() * 10000) +
+        path.extname(originalname)
+      }`;
+      const result = await FileService.getFile(
+        filename,
+        mimetype,
+        size,
+        userId,
+        comentId
+      );
+      ctx.body = '上传文件成功';
+    }
   }
 }
 module.exports = new AvatarController();

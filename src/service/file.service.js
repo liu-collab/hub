@@ -23,6 +23,22 @@ class FileService {
       console.log(error);
     }
   }
+  async getFile(filename, mimetype, size, userId, comentId) {
+    try {
+      const statement = `INSERT INTO file (filename,mimetype ,size,user_id ,coment_id) VALUES (?,?,?,?,?); `;
+      const [result] = await connection.execute(statement, [
+        filename,
+        mimetype,
+        size,
+        userId,
+        comentId,
+      ]);
+
+      return result[0];
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = new FileService();
