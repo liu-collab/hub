@@ -9,8 +9,6 @@ class MomentService {
       return result[0];
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   //动态和动态的评论有两种方法
@@ -42,8 +40,6 @@ class MomentService {
       return result[0];
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   //获取动态列表
@@ -63,8 +59,6 @@ class MomentService {
       return result;
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   //修改动态
@@ -75,8 +69,6 @@ class MomentService {
       return result;
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   //删除动态
@@ -87,8 +79,6 @@ class MomentService {
       return result;
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   //查找标签是否在动态中
@@ -110,8 +100,6 @@ class MomentService {
       return result;
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   async getFile(filename) {

@@ -18,8 +18,6 @@ class UserService {
       return result[0];
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   // 查询用户是否存在
@@ -30,8 +28,6 @@ class UserService {
       return result[0];
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   //保存图片的url到用户表中

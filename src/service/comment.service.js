@@ -1,5 +1,4 @@
 const connection = require('../app/database');
-const errType = require('../contants/errType');
 class CommentService {
   async create(momentId, conent, userId) {
     try {
@@ -12,8 +11,6 @@ class CommentService {
       return result;
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   async reply(momentId, conent, userId, commentId) {
@@ -29,8 +26,6 @@ class CommentService {
       return result;
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   //修改动态
@@ -41,8 +36,6 @@ class CommentService {
       return result;
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   //删除动态
@@ -53,8 +46,6 @@ class CommentService {
       return result;
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
   async list(momentId) {
@@ -69,8 +60,6 @@ class CommentService {
       return result;
     } catch (err) {
       console.log(err);
-      const error = new Error(errType.SQL_ERROR);
-      ctx.app.emit('error', error, ctx);
     }
   }
 }
