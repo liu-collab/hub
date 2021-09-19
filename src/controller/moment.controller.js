@@ -101,11 +101,18 @@ class MomentController {
   }
   async fileInfo(ctx, next) {
     try {
-      const { filename } = ctx.params;
+      let { filename } = ctx.params;
       const fileInfo = await service.getFile(filename);
+      const { type } = ctx.query;
+      const types = ['small', 'middle', 'large'];
+      //判断传入的图片尺寸大小是否一致
+      if (types.some((item) => item === type)) {
+        //将文件名拼接上传入的·类型
+        filename = filename.slice(0, 13) + '-' + type + filename.slice(13);
+      }
 
       ctx.response.set('content-type', fileInfo.mimetype);
-      ctx.body = fs.createReadStream(`${FILEPATH}/${fileInfo.filename}`);
+      ctx.body = fs.createReadStream(`${FILEPATH}/${filename}`);
     } catch (error) {
       console.log(error);
     }

@@ -31,7 +31,7 @@ class AvatarController {
         userId,
         comentId
       );
-      ctx.body = '上传文件成功';
+      ctx.body = '上传动态配图成功';
     }
   }
 }
